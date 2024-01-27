@@ -10,6 +10,7 @@ export default function LogIn(props) {
             <Nav />
             <form className="signup-form" action="" method="POST" onSubmit={props.handleVerifyAccount}>
                 <h2 className='signup-title'>Log In</h2>
+                <h1 style={{color: 'red'}}>*Currently not functional, <br /> check back soon*</h1>
 
                 <label htmlFor="username" className='form-label'>Username</label>
                 <input type="text" name='username' className='form-input' id='username' onChange={props.handleLoginUsername} />

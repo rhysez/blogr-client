@@ -343,12 +343,16 @@ nav {
   margin-right: 50%;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 900px) {
   .comments-container {
     margin-left:0%;
     margin-right: 0%;
     width: 100%;
   }
+}
+
+.comment-form-label {
+  color: var(--palette-light);
 }
 
 label {
@@ -366,6 +370,16 @@ label {
   gap: 1rem;
   margin-left: 5%;
   margin-right: 50%;
+  
+}
+
+@media (max-width: 900px) {
+  .form-comment {
+    width: 100%;
+    justify-content: center;
+    margin: auto;
+    margin-top: 50px;
+  }
 }
 
 .form-label {

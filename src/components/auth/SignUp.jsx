@@ -10,7 +10,8 @@ export default function SignUp(props) {
             <Nav />
             <form className="signup-form" action="" method="POST" onSubmit={props.handleCreateAccount}>
                 <h2 className='signup-title'>Sign Up</h2>
-
+                <h1 style={{color: 'red'}}>*Currently not functional, <br /> check back soon*</h1>
+                
                 <label htmlFor="firstname" className='form-label'>First name</label>
                 <input type="text" name='firstname' className='form-input' id='firstname' onChange={props.handleFirstName} />
 

@@ -136,7 +136,7 @@ const ActivePost = (props) => {
         </article>
 
         <form action="" method="POST" className="hidden" ref={ref} onSubmit={handleCreateComment}>
-          <label htmlFor="comment_text" className="form-label">
+          <label htmlFor="comment_text" className="comment-form-label">
             Your thoughts:
           </label>
           <input
@@ -147,7 +147,7 @@ const ActivePost = (props) => {
             required={true}
           />
 
-          <label htmlFor="comment_user" className="form-label">
+          <label htmlFor="comment_user" className="comment-form-label">
             Your name:
           </label>
           <input
