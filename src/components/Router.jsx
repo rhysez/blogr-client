@@ -31,6 +31,7 @@ const Router = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState([]);
+    const [signedUp, setSignedUp] = useState(false);
 
     // sign up handlers
     const handleFirstName = (e) => {
@@ -71,14 +72,10 @@ const Router = () => {
             })
           })
 
-          if (response.ok) {
-            console.log("Created account successfully")
-          } else if (response.status == 400) {
-            setErrors(errorData.details)
-            console.log(errors)
-          } else {
-            console.error('Could not create account')
+          if (response.status === 200) {
+            setSignedUp(true)
           }
+
         } catch (err) {
           console.error(err)
         }
@@ -87,6 +84,7 @@ const Router = () => {
     // log in info captured from form
     const [loginUsername, setLoginUsername] = useState("")
     const [loginPassword, setLoginPassword] = useState("")
+    const [message, setMessage] = useState("")
 
     const handleLoginUsername = (e) => {
         setLoginUsername(e.target.value)
@@ -110,9 +108,8 @@ const Router = () => {
                 password: loginPassword,
               })
             })
-            .then(response => response.json())
-            .then(data => setUser(data))
-            .then(console.log(user))
+            const data = await response.json();
+            setMessage(data.message);
         
         } catch(err) {
             console.log(err)
@@ -138,7 +135,8 @@ const Router = () => {
                         handleUserName={handleUserName}
                         handlePassword={handlePassword}
                         handleConfirmPassword={handleConfirmPassword}
-                        handleCreateAccount={handleCreateAccount} />,
+                        handleCreateAccount={handleCreateAccount}
+                        signedUp={signedUp} />,
             errorElement: <Error />
         },
         {
@@ -146,7 +144,8 @@ const Router = () => {
             element: <LogIn
                         handleLoginUsername={handleLoginUsername}
                         handleLoginPassword={handleLoginPassword}
-                        handleVerifyAccount={handleVerifyAccount} />,
+                        handleVerifyAccount={handleVerifyAccount}
+                        message={message} />,
             errorElement: <Error />
         },
         {
