@@ -109,7 +109,10 @@ const Router = () => {
               })
             })
             const data = await response.json();
-            setMessage(data.message);
+            if (data.message) {
+                setMessage(data.message);
+            }
+            console.log(data);
         
         } catch(err) {
             console.log(err)
