@@ -8,6 +8,17 @@ export default function AllPosts(props) {
   const posts = props.posts;
   const location = useLocation();
 
+  if (!props.user) {
+    return(
+      <>
+        <section className='gradient-box'>
+        <Nav />
+      </section>
+      <section className="all-posts-container" style={{fontSize: '2rem'}}>You must be logged in to view posts</section>
+      </>
+    )
+  }
+
   if (!posts) {
     return (
       <h1 style={{ marginTop: "100px" }}>Sorry, we could not load any posts</h1>

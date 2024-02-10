@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, redirect } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import App from '../App';
 import Error from './main/Error';
 import AllPosts from './main/AllPosts'
@@ -11,7 +12,9 @@ const Router = () => {
     const [posts, setPosts] = useState([]);
     const [apiResponse, setApiResponse] = useState(false)
 
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(null)
+
+    const userCookie = Cookies.get();
 
     // connects to server and gets posts via /posts route
     useEffect(() => {
@@ -23,6 +26,34 @@ const Router = () => {
         })
         .catch(err => console.log(err))
     }, [])
+
+    useEffect(() => {
+        if (userCookie) {
+            async function getUser() {
+                const response = await fetch('https://blogr-production.up.railway.app/api/user', {
+                    method: "POST",
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: userCookie.user
+                    })
+                })
+    
+                    const userData = await response.json();
+    
+                    if (response.status === 200) {
+                        setUser(userData);
+                        console.log(user)
+                    } 
+                }
+    
+            getUser();
+        }
+    }, [])
+
+        
+    
 
     // user sign up info captured from form
     const [firstName, setFirstName] = useState("");
@@ -98,11 +129,6 @@ const Router = () => {
         e.preventDefault()
 
         try {
-            const credentials = {
-                username: loginUsername,
-                password: loginPassword
-            }
-
             const response = await fetch(`https://blogr-production.up.railway.app/api/log_in`, {
               method: "POST",
               headers: {
@@ -114,16 +140,20 @@ const Router = () => {
               })
             })
             const data = await response.json();
+            console.log(data)
+            if (loginUsername === data.user_name) {
+                setUser(data);
+                setMessage(`Welcome ${user.first_name}, have fun!`);
+                Cookies.set('user', user._id, { expires: 0.5 });
+            }
             if (data.message) {
                 setMessage(data.message);
             }
-            console.log(data)
-            setUser(data);
-        
+
         } catch(err) {
             console.log(err)
         }
-}
+    }   
 
     const router = createBrowserRouter([
         {
@@ -133,7 +163,7 @@ const Router = () => {
         },
         {
             path: '/posts',
-            element: <AllPosts posts={posts}/>,
+            element: <AllPosts posts={posts} user={user} />,
             errorElement: <Error />
         },
         {
@@ -145,7 +175,8 @@ const Router = () => {
                         handlePassword={handlePassword}
                         handleConfirmPassword={handleConfirmPassword}
                         handleCreateAccount={handleCreateAccount}
-                        signedUp={signedUp} />,
+                        signedUp={signedUp}
+                        user={user} />,
             errorElement: <Error />
         },
         {
@@ -159,7 +190,7 @@ const Router = () => {
         },
         {
             path: '/posts/activepost',
-            element: <ActivePost />,
+            element: <ActivePost user={user} />,
             errorElement: <Error />
         },
     ]);

@@ -6,6 +6,16 @@ import Comment from "./Comment";
 import { useLocation } from "react-router-dom";
 
 const ActivePost = (props) => {
+
+  if (!props.user) {
+    return (
+      <>
+        <Nav />
+        <p style={{fontSize: '2rem'}}>You must be logged in to view posts</p>
+      </>
+    )
+  }
+
   const location = useLocation();
 
   const [post, setPost] = useState({});
@@ -15,7 +25,6 @@ const ActivePost = (props) => {
 
   const [comments, setComments] = useState(post.comments);
   const [commentText, setCommentText] = useState("");
-  const [commentUser, setCommentUser] = useState("");
 
   const [errors, setErrors] = useState([])
 
@@ -75,7 +84,7 @@ const ActivePost = (props) => {
         },
         body: JSON.stringify({
           comment_text: commentText, 
-          comment_user: commentUser
+          comment_user: props.user.user_name
         })
       });
 
@@ -144,17 +153,6 @@ const ActivePost = (props) => {
             id="comment_text"
             name="comment_text"
             onChange={handleText}
-            required={true}
-          />
-
-          <label htmlFor="comment_user" className="comment-form-label">
-            Your name:
-          </label>
-          <input
-            type="text"
-            id="comment_user"
-            name="comment_user"
-            onChange={handleUser}
             required={true}
           />
 

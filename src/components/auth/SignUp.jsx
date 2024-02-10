@@ -4,6 +4,15 @@ import Nav from '../main/Nav';
 export default function SignUp(props) {
     const navigate = useNavigate();
 
+    if (props.user) {
+        return (
+            <>
+                <Nav />
+                <p style={{fontSize: '2rem'}}>You are already logged in as {props.user.first_name + " " + props.user.last_name}</p>
+            </>
+        )
+    }
+
     return (
         <>
             <Nav />
