@@ -98,10 +98,15 @@ const Router = () => {
         e.preventDefault()
 
         try {
+            const credentials = {
+                username: loginUsername,
+                password: loginPassword
+            }
+
             const response = await fetch(`https://blogr-production.up.railway.app/api/log_in`, {
               method: "POST",
               headers: {
-                  'Content-type': 'application/json'
+                  'Content-Type': 'application/json'
               },
               body: JSON.stringify({
                 username: loginUsername,
@@ -112,7 +117,8 @@ const Router = () => {
             if (data.message) {
                 setMessage(data.message);
             }
-            console.log(data);
+            console.log(data)
+            setUser(data);
         
         } catch(err) {
             console.log(err)

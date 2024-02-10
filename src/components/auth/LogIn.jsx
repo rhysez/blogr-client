@@ -16,7 +16,7 @@ export default function LogIn(props) {
                 <input type="text" name='username' className='form-input' id='username' onChange={props.handleLoginUsername} />
 
                 <label htmlFor="password" className='form-label'>Password</label>
-                <input type="password" name='password' className='form-input' id='password' onChange={props.handlePassword} />
+                <input type="password" name='password' className='form-input' id='password' onChange={props.handleLoginPassword} />
 
                 <button className="signup-submit" type="submit">Log In</button>
                 <button className="signup-submit" onClick={() => {navigate('/signup')}}>Sign up</button>
